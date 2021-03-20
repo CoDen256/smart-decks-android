@@ -10,28 +10,29 @@ import java.io.InputStream;
 
 import coden.android.card.R;
 import coden.android.card.mvc.persistence.AndroidFirebase;
-import coden.cards.model.Model;
-import coden.cards.persistence.Database;
-import coden.cards.reminder.BaseReminder;
-import coden.cards.reminder.Reminder;
-import coden.cards.user.User;
-import coden.cards.user.UserEntry;
+import coden.core.decks.model.DecksModel;
+import coden.core.decks.model.SimpleDecks;
+import coden.core.decks.persistence.Database;
+import coden.core.decks.revision.RevisionManagerImpl;
+import coden.core.decks.revision.RevisionManager;
+import coden.core.decks.user.User;
+import coden.core.decks.user.UserEntry;
 
 public class ModelUtils {
 
 
-    private static Model mModel;
+    private static DecksModel mModel;
     private static Database mDatabase;
-    private static BaseReminder mBaseReminder;
+    private static RevisionManager mBaseReminder;
 
-    public static Model getModel(View view){
+    public static DecksModel getModel(View view){
         if (mModel == null){
             mModel = createModel(getUser(view), getReminder(view), getDatabase(view));
         }
         return mModel;
     }
 
-    public static Model getModel(User user, BaseReminder reminder, Database database){
+    public static DecksModel getModel(User user, RevisionManager reminder, Database database){
         if (mModel == null){
             mModel = createModel(user, reminder, database);
         }
@@ -46,15 +47,15 @@ public class ModelUtils {
         return mDatabase;
     }
 
-    public static BaseReminder getReminder(View view){
+    public static RevisionManager getReminder(View view){
         if (mBaseReminder == null){
             mBaseReminder = createReminder(view);
         }
         return mBaseReminder;
     }
 
-    private static Model createModel(User user, BaseReminder reminder, Database database) {
-        return new LazyModel(user, reminder, database);
+    private static DecksModel createModel(User user, RevisionManager reminder, Database database) {
+        return new SimpleDecks(user, reminder, database);
     }
 
     private static Database createDatabase(View view) {
@@ -62,10 +63,10 @@ public class ModelUtils {
         return new AndroidFirebase(firebaseConfig);
     }
 
-    private static BaseReminder createReminder(View view) {
-        InputStream reminderConfig = view.getResources().openRawResource(R.raw.reminder);
+    private static RevisionManager createReminder(View view) {
+        InputStream reminderConfig = view.getResources().openRawResource(R.raw.revision);
         try{
-            return new Reminder(reminderConfig);
+            return new RevisionManagerImpl(reminderConfig);
         } catch (IOException e) {
             throw new IllegalStateException("Cannot create a reminder. Check the config on syntax errors", e);
         }

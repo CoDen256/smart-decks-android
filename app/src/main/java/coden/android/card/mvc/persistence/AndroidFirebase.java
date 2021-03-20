@@ -11,12 +11,12 @@ import java.util.Objects;
 import java.util.concurrent.CompletableFuture;
 import java.util.stream.Stream;
 
-import coden.cards.data.Card;
-import coden.cards.persistence.Database;
-import coden.cards.persistence.firebase.FirebaseCardEntry;
-import coden.cards.persistence.firebase.FirebaseConfig;
-import coden.cards.user.User;
-import coden.cards.user.UserNotProvidedException;
+import coden.core.decks.data.Card;
+import coden.core.decks.persistence.Database;
+import coden.core.decks.persistence.firebase.FirebaseCard;
+import coden.core.decks.persistence.firebase.FirebaseConfig;
+import coden.core.decks.user.User;
+import coden.core.decks.user.UserNotProvidedException;
 
 public class AndroidFirebase implements Database {
 
@@ -77,7 +77,7 @@ public class AndroidFirebase implements Database {
         @Override
         public CompletableFuture<Void> deleteEntry(Card entry){
             final Task<Void> deleteFuture = getCards()
-                    .document(entry.getFirstSide())
+                    .document(entry.getFrontSide())
                     .delete();
             return createCompletableFuture(deleteFuture)
                     .thenApply(writeResult -> null);
@@ -86,7 +86,7 @@ public class AndroidFirebase implements Database {
         @Override
         public CompletableFuture<Void> addOrUpdateEntry(Card entry) {
             final Task<Void> addOrUpdateFuture = getCards()
-                    .document(entry.getFirstSide())
+                    .document(entry.getFrontSide())
                     .set(entry);
             return createCompletableFuture(addOrUpdateFuture)
                     .thenApply(writeResult -> null);
@@ -113,7 +113,7 @@ public class AndroidFirebase implements Database {
                     .map(this::toFirebaseCardEntry);
         }
 
-        private FirebaseCardEntry toFirebaseCardEntry(DocumentSnapshot c) {
-            return c.toObject(FirebaseCardEntry.class);
+        private FirebaseCard toFirebaseCardEntry(DocumentSnapshot c) {
+            return c.toObject(FirebaseCard.class);
         }
 }

@@ -12,9 +12,9 @@ import android.widget.Toast;
 import java.util.concurrent.CompletableFuture;
 
 import coden.android.card.R;
-import coden.cards.data.Card;
-import coden.cards.model.Model;
-import coden.cards.user.User;
+import coden.core.decks.data.Card;
+import coden.core.decks.model.DecksModel;
+import coden.core.decks.user.User;
 
 import static coden.android.card.mvc.model.ModelUtils.getModel;
 import static coden.android.card.mvc.model.ModelUtils.getUser;
@@ -26,7 +26,7 @@ public class MainActivityCardController implements MainActivityController {
     private final View mView;
     private final Activity mActivity;
 
-    private final Model mCachedCardModel;
+    private final DecksModel mCachedCardModel;
 
     private final View mdeleteButton;
     private final View mAddButton;
@@ -122,8 +122,8 @@ public class MainActivityCardController implements MainActivityController {
     private void displaySides(Card card){
         enableAllButtons();
         hideSecondSide();
-        displayOnTextView(mFirstSide, card.getFirstSide());
-        deferredSecondSide = card.getSecondSide();
+        displayOnTextView(mFirstSide, card.getFrontSide());
+        deferredSecondSide = card.getBackSide();
     }
 
     private void displayOnTextView(TextView view, String text){
