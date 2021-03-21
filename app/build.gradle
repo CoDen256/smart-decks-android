@@ -39,7 +39,9 @@ android {
 }
 
 dependencies {
-    implementation 'coden:smart-decks-core:2.0.2'
+    implementation('coden:smart-decks-core:2.0.2'){
+        exclude group: 'com.google.firebase', module:'firebase-admin'
+    }
     implementation platform('com.google.firebase:firebase-bom:26.1.0')
     implementation 'com.google.firebase:firebase-firestore'
     implementation 'com.google.firebase:firebase-analytics'
