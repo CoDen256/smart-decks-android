@@ -1,4 +1,4 @@
-package coden.android.card.ui.pending;
+package coden.decks.android.ui.pending;
 
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -7,22 +7,21 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import coden.android.card.R;
-import coden.cards.data.Card;
-import coden.cards.reminder.BaseReminder;
 
 import java.time.Duration;
 import java.util.List;
 
-import static coden.android.card.mvc.model.ModelUtils.getReminder;
+import coden.decks.android.R;
+import coden.decks.core.data.Card;
+import coden.decks.core.revision.RevisionManager;
 
 
 public class CardRecyclerViewAdapter extends RecyclerView.Adapter<CardRecyclerViewAdapter.ViewHolder> {
 
     private final List<Card> mCards;
-    private final BaseReminder mReminder;
+    private final RevisionManager mReminder;
 
-    public CardRecyclerViewAdapter(List<Card> items, BaseReminder reminder) {
+    public CardRecyclerViewAdapter(List<Card> items, RevisionManager reminder) {
         mCards = items;
         mReminder = reminder;
     }
@@ -39,9 +38,9 @@ public class CardRecyclerViewAdapter extends RecyclerView.Adapter<CardRecyclerVi
         Card card = mCards.get(position);
         holder.mItem = card;
 //        holder.mIdView.setText(String.valueOf(position+1));
-        holder.firstSide.setText(card.getFirstSide());
-        holder.secondSide.setText(card.getSecondSide());
-        holder.deadline.setText(formatDuration(mReminder.getOvertime(card)));
+        holder.firstSide.setText(card.getFrontSide());
+        holder.secondSide.setText(card.getBackSide());
+        holder.deadline.setText(formatDuration(mReminder.getTimeToNextRevision(card)));
     }
 
     private static String formatDuration(Duration duration) {

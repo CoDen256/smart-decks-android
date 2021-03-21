@@ -1,4 +1,4 @@
-package coden.android.card.ui.home;
+package coden.decks.android.ui.home;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -9,24 +9,21 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.ImageButton;
-import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
-import coden.android.card.CreateCardActivity;
-import coden.android.card.MainActivity;
-import coden.android.card.R;
-import coden.android.card.SettingsActivity;
-import coden.android.card.mvc.controller.MainActivityCardController;
-import coden.android.card.mvc.controller.MainActivityController;
+
+import coden.decks.android.CreateCardActivity;
+import coden.decks.android.R;
+import coden.decks.android.SettingsActivity;
+import coden.decks.android.mvc.controller.MainActivityCardController;
+import coden.decks.android.mvc.controller.MainActivityController;
 
 import static android.app.Activity.RESULT_OK;
 

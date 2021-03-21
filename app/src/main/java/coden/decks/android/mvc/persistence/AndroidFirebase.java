@@ -1,4 +1,4 @@
-package coden.android.card.mvc.persistence;
+package coden.decks.android.mvc.persistence;
 
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.CollectionReference;
@@ -6,17 +6,17 @@ import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QuerySnapshot;
 
-import java.io.InputStream;
+import java.io.IOException;
 import java.util.Objects;
 import java.util.concurrent.CompletableFuture;
 import java.util.stream.Stream;
 
-import coden.core.decks.data.Card;
-import coden.core.decks.persistence.Database;
-import coden.core.decks.persistence.firebase.FirebaseCard;
-import coden.core.decks.persistence.firebase.FirebaseConfig;
-import coden.core.decks.user.User;
-import coden.core.decks.user.UserNotProvidedException;
+import coden.decks.core.data.Card;
+import coden.decks.core.persistence.Database;
+import coden.decks.core.firebase.FirebaseCard;
+import coden.decks.core.firebase.FirebaseConfig;
+import coden.decks.core.user.User;
+import coden.decks.core.user.UserNotProvidedException;
 
 public class AndroidFirebase implements Database {
 
@@ -26,9 +26,8 @@ public class AndroidFirebase implements Database {
         private User user;
         private CollectionReference cards;
 
-        public AndroidFirebase(InputStream config){
-            Objects.requireNonNull(config);
-            this.config = new FirebaseConfig(config);
+        public AndroidFirebase(FirebaseConfig config){
+            this.config = Objects.requireNonNull(config);
             this.firestore = createFirestore();
         }
 
@@ -39,7 +38,7 @@ public class AndroidFirebase implements Database {
         private CollectionReference createCollection() {
             return firestore.collection(this.config.userCollection)
                     .document(this.user.getName())
-                    .collection(this.config.mainCollection);
+                    .collection(this.config.deckCollection);
         }
 
         @Override
@@ -116,4 +115,9 @@ public class AndroidFirebase implements Database {
         private FirebaseCard toFirebaseCardEntry(DocumentSnapshot c) {
             return c.toObject(FirebaseCard.class);
         }
+
+    @Override
+    public void close() throws IOException {
+        // no-op
+    }
 }

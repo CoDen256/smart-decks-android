@@ -1,4 +1,4 @@
-package coden.android.card.mvc.model;
+package coden.decks.android.mvc.model;
 
 import android.content.SharedPreferences;
 import android.view.View;
@@ -8,15 +8,16 @@ import androidx.preference.PreferenceManager;
 import java.io.IOException;
 import java.io.InputStream;
 
-import coden.android.card.R;
-import coden.android.card.mvc.persistence.AndroidFirebase;
-import coden.core.decks.model.DecksModel;
-import coden.core.decks.model.SimpleDecks;
-import coden.core.decks.persistence.Database;
-import coden.core.decks.revision.RevisionManagerImpl;
-import coden.core.decks.revision.RevisionManager;
-import coden.core.decks.user.User;
-import coden.core.decks.user.UserEntry;
+import coden.decks.android.R;
+import coden.decks.android.mvc.persistence.AndroidFirebase;
+import coden.decks.core.firebase.FirebaseConfig;
+import coden.decks.core.model.DecksModel;
+import coden.decks.core.model.Decks;
+import coden.decks.core.persistence.Database;
+import coden.decks.core.revision.RevisionManagerImpl;
+import coden.decks.core.revision.RevisionManager;
+import coden.decks.core.user.User;
+import coden.decks.core.user.UserEntry;
 
 public class ModelUtils {
 
@@ -55,12 +56,12 @@ public class ModelUtils {
     }
 
     private static DecksModel createModel(User user, RevisionManager reminder, Database database) {
-        return new SimpleDecks(user, reminder, database);
+        return new Decks(user, reminder, database);
     }
 
     private static Database createDatabase(View view) {
         InputStream firebaseConfig = view.getResources().openRawResource(R.raw.firebase);
-        return new AndroidFirebase(firebaseConfig);
+        return new AndroidFirebase(new FirebaseConfig(firebaseConfig));
     }
 
     private static RevisionManager createReminder(View view) {

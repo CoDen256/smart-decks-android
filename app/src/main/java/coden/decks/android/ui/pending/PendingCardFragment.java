@@ -1,4 +1,4 @@
-package coden.android.card.ui.pending;
+package coden.decks.android.ui.pending;
 
 import android.content.Context;
 import android.os.Bundle;
@@ -14,13 +14,14 @@ import android.view.ViewGroup;
 
 import java.util.List;
 
-import coden.android.card.R;
-import coden.cards.data.Card;
-import coden.cards.model.Model;
-import coden.cards.reminder.BaseReminder;
+import coden.decks.android.R;
+import coden.decks.core.data.Card;
+import coden.decks.core.model.DecksModel;
+import coden.decks.core.revision.RevisionManager;
 
-import static coden.android.card.mvc.model.ModelUtils.getModel;
-import static coden.android.card.mvc.model.ModelUtils.getReminder;
+import static coden.decks.android.mvc.model.ModelUtils.getModel;
+import static coden.decks.android.mvc.model.ModelUtils.getReminder;
+
 
 /**
  * A fragment representing a list of Items.
@@ -75,8 +76,8 @@ public class PendingCardFragment extends Fragment {
 //            getModel(view)
 //                    .getPendingCards()
 //                    .thenAccept(cards -> setAdapter(recyclerView, cards));
-            Model model = getModel(view);
-            BaseReminder reminder = getReminder(view);
+            DecksModel model = getModel(view);
+            RevisionManager reminder = getReminder(view);
             model.getPendingCards().thenCombine(model.getReadyCards(), (pending, ready) -> {
                 ready.addAll(pending);
                 return ready;
@@ -86,7 +87,7 @@ public class PendingCardFragment extends Fragment {
         return view;
     }
 
-    private void setAdapter(RecyclerView recyclerView, List<Card> cards, BaseReminder reminder) {
+    private void setAdapter(RecyclerView recyclerView, List<Card> cards, RevisionManager reminder) {
         recyclerView.setAdapter(new CardRecyclerViewAdapter(cards, reminder));
     }
 }

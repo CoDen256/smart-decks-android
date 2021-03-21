@@ -1,4 +1,4 @@
-package coden.android.card;
+package coden.decks.android;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -7,13 +7,11 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
 import android.text.TextUtils;
-import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
 
 import com.google.android.material.textfield.TextInputEditText;
 
-import coden.cards.model.Model;
 
 public class CreateCardActivity extends AppCompatActivity {
 

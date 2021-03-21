@@ -1,4 +1,4 @@
-package coden.android.card;
+package coden.decks.coden;
 
 import android.content.Context;
 

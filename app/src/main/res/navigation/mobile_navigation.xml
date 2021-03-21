@@ -7,12 +7,12 @@
 
     <fragment
         android:id="@+id/nav_home"
-        android:name="coden.android.card.ui.home.HomeFragment"
+        android:name="coden.decks.coden.ui.home.HomeFragment"
         android:label="@string/menu_home"
         tools:layout="@layout/fragment_home" />
     <fragment
         android:id="@+id/nav_pending"
-        android:name="coden.android.card.ui.pending.PendingCardFragment"
+        android:name="coden.decks.coden.ui.pending.PendingCardFragment"
         android:label="Pending Cards"
         tools:layout="@layout/fragment_pending_card_list" />
 </navigation>

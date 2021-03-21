@@ -8,11 +8,11 @@ android {
     buildToolsVersion "29.0.3"
 
     defaultConfig {
-        applicationId "coden.android.card"
+        applicationId "coden.decks.android"
         minSdkVersion 28
         targetSdkVersion 29
         versionCode 1
-        versionName "1.0"
+        versionName "1.1"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
@@ -39,7 +39,7 @@ android {
 }
 
 dependencies {
-    implementation 'coden:smart-decks-core:2.0.+'
+    implementation 'coden:smart-decks-core:2.0.2'
     implementation platform('com.google.firebase:firebase-bom:26.1.0')
     implementation 'com.google.firebase:firebase-firestore'
     implementation 'com.google.firebase:firebase-analytics'

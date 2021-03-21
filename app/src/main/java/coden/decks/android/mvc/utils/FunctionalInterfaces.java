@@ -1,4 +1,4 @@
-package coden.android.card.mvc.utils;
+package coden.decks.android.mvc.utils;
 
 import java.util.function.Consumer;
 import java.util.function.Function;

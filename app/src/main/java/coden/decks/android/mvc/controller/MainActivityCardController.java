@@ -1,8 +1,9 @@
-package coden.android.card.mvc.controller;
+package coden.decks.android.mvc.controller;
 
 
 import android.app.Activity;
 import android.content.Intent;
+import android.graphics.ColorSpace;
 import android.text.Html;
 import android.text.Spanned;
 import android.view.View;
@@ -11,15 +12,16 @@ import android.widget.Toast;
 
 import java.util.concurrent.CompletableFuture;
 
-import coden.android.card.R;
-import coden.core.decks.data.Card;
-import coden.core.decks.model.DecksModel;
-import coden.core.decks.user.User;
+import coden.decks.android.R;
+import coden.decks.core.data.Card;
+import coden.decks.core.model.DecksModel;
+import coden.decks.core.user.User;
 
-import static coden.android.card.mvc.model.ModelUtils.getModel;
-import static coden.android.card.mvc.model.ModelUtils.getUser;
-import static coden.android.card.mvc.utils.FunctionalInterfaces.acceptOrCall;
-import static coden.android.card.mvc.utils.FunctionalInterfaces.applyOrSkip;
+import static coden.decks.android.mvc.model.ModelUtils.getModel;
+import static coden.decks.android.mvc.model.ModelUtils.getUser;
+import static coden.decks.android.mvc.utils.FunctionalInterfaces.acceptOrCall;
+import static coden.decks.android.mvc.utils.FunctionalInterfaces.applyOrSkip;
+
 
 public class MainActivityCardController implements MainActivityController {
 
