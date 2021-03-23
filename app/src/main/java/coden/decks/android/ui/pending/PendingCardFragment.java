@@ -15,8 +15,8 @@ import android.view.ViewGroup;
 import java.util.List;
 
 import coden.decks.android.R;
+import coden.decks.android.app.App;
 import coden.decks.android.core.CoreApplicationComponent;
-import coden.decks.android.core.DaggerCoreApplicationComponent;
 import coden.decks.core.data.Card;
 import coden.decks.core.model.DecksModel;
 import coden.decks.core.revision.RevisionManager;
@@ -31,6 +31,8 @@ public class PendingCardFragment extends Fragment {
     private static final String ARG_COLUMN_COUNT = "column-count";
     // TODO: Customize parameters
     private int mColumnCount = 1;
+
+    private static final CoreApplicationComponent component = App.getCoreApplicationComponent();
 
     /**
      * Mandatory empty constructor for the fragment manager to instantiate the
@@ -75,7 +77,6 @@ public class PendingCardFragment extends Fragment {
 //            getModel(view)
 //                    .getPendingCards()
 //                    .thenAccept(cards -> setAdapter(recyclerView, cards));
-            CoreApplicationComponent component = DaggerCoreApplicationComponent.create();
             DecksModel model = component.decksModel();
             RevisionManager reminder = component.revisor();
             model.getPendingCards().thenCombine(model.getReadyCards(), (pending, ready) -> {

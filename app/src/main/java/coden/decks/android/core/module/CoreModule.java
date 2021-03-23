@@ -24,6 +24,7 @@ import dagger.Provides;
 
 @Module
 public class CoreModule {
+
     @Singleton
     @Provides
     public DecksModel provideDecksModel(Settings settings, Database database, RevisionManager manager){

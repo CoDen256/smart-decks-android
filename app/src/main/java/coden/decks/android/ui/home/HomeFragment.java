@@ -18,12 +18,11 @@ import androidx.fragment.app.Fragment;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
-
 import coden.decks.android.CreateCardActivity;
 import coden.decks.android.R;
 import coden.decks.android.SettingsActivity;
+import coden.decks.android.app.App;
 import coden.decks.android.core.CoreApplicationComponent;
-import coden.decks.android.core.DaggerCoreApplicationComponent;
 import coden.decks.android.core.controller.MainActivityCardController;
 import coden.decks.android.core.controller.MainActivityController;
 
@@ -31,10 +30,11 @@ import static android.app.Activity.RESULT_OK;
 
 public class HomeFragment extends Fragment {
 
+    private final static CoreApplicationComponent mComponent = App.getCoreApplicationComponent();
+
     private View mRoot;
     private MainActivityController mController;
 
-    private CoreApplicationComponent mComponent = DaggerCoreApplicationComponent.create();
 
     public View onCreateView(@NonNull LayoutInflater inflater,
             ViewGroup container, Bundle savedInstanceState) {
