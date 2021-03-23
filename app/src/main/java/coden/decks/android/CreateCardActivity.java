@@ -15,8 +15,8 @@ import com.google.android.material.textfield.TextInputEditText;
 
 public class CreateCardActivity extends AppCompatActivity {
 
-    private TextInputEditText mFirstSide;
-    private TextInputEditText mSecondSide;
+    private TextInputEditText mFrontSide;
+    private TextInputEditText mBackSide;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -24,8 +24,8 @@ public class CreateCardActivity extends AppCompatActivity {
         setContentView(R.layout.activity_create_card);
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        mFirstSide = findViewById(R.id.first_side_input);
-        mSecondSide = findViewById(R.id.second_side_input);
+        mFrontSide = findViewById(R.id.frontSide);
+        mBackSide = findViewById(R.id.backside);
         setListenerOnCreateButton();
         setListenerOnCancelButton();
     }
@@ -33,7 +33,6 @@ public class CreateCardActivity extends AppCompatActivity {
 
     private void setListenerOnCreateButton() {
         Button createButton = findViewById(R.id.submit_button);
-
         createButton.setOnClickListener( v -> publishOnCompleted());
     }
 
@@ -43,17 +42,17 @@ public class CreateCardActivity extends AppCompatActivity {
     }
 
     private void publishOnCompleted() {
-        if (TextUtils.isEmpty(mFirstSide.getText()) || TextUtils.isEmpty(mSecondSide.getText())){
+        if (TextUtils.isEmpty(mFrontSide.getText()) || TextUtils.isEmpty(mBackSide.getText())){
             toastIncomplete();
         }else {
-            publish(mFirstSide.getText().toString(), mSecondSide.getText().toString());
+            publish(mFrontSide.getText().toString(), mBackSide.getText().toString());
         }
     }
 
-    private void publish(String firstSide, String secondSide){
+    private void publish(String frontSide, String backSide){
         Intent data = new Intent();
-        data.putExtra("firstSide",firstSide);
-        data.putExtra("secondSide",secondSide);
+        data.putExtra("frontSide", frontSide);
+        data.putExtra("backSide", backSide);
         setResult(RESULT_OK,data);
         finish();
     }

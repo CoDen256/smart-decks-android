@@ -21,7 +21,7 @@
     <string name="hello_first_fragment">Hello first fragment</string>
     <string name="hello_second_fragment">Hello second fragment. Arg: %1$s</string>
     <string name="tap_to_see">Tap to see…</string>
-    <string name="no_cards">No cards to display.</string>
+    <string name="emptyDeck">No cards to display.</string>
     <string name="using_default_user">USING DEFAULT USER</string>
     <string name="pending_cards">Pending Cards</string>
     <string name="default_user_name">$DEFAULT_USER$</string>

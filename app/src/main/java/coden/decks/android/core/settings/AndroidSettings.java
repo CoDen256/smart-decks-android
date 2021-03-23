@@ -40,6 +40,6 @@ public class AndroidSettings implements Settings {
 
     @Override
     public boolean isDefaultUser() {
-        return currentUser != null && defaultUsername.equals(currentUser.getName());
+        return currentUser != null && defaultUsername.equals(getSettingsUsername());
     }
 }

@@ -16,7 +16,7 @@
         tools:layout_editor_absoluteY="101dp">
 
         <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/first_side_input"
+            android:id="@+id/frontSide"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="First side" />
@@ -30,7 +30,7 @@
         tools:layout_editor_absoluteX="60dp">
 
         <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/second_side_input"
+            android:id="@+id/backside"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="Second side" />

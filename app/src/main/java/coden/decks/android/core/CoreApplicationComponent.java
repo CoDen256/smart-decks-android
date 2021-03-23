@@ -4,7 +4,7 @@ import javax.inject.Singleton;
 
 import coden.decks.android.core.module.CoreModule;
 import coden.decks.android.core.settings.Settings;
-import coden.decks.android.ui.home.HomeFragment;
+import coden.decks.android.ui.home.view.HomeFragment;
 import coden.decks.android.ui.pending.PendingCardFragment;
 import coden.decks.core.model.DecksModel;
 import coden.decks.core.revision.RevisionManager;
@@ -17,6 +17,6 @@ public interface CoreApplicationComponent {
     Settings settings();
     RevisionManager revisor();
 
-    void inject(HomeFragment loginActivity);
+    void inject(HomeFragment homeFragment);
     void inject(PendingCardFragment pendingCardFragment);
 }
