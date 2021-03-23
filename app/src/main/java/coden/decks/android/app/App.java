@@ -9,14 +9,13 @@ import coden.decks.android.core.DaggerCoreApplicationComponent;
 public class App extends Application {
     private static App mInstance;
     private static Resources res;
-    private static CoreApplicationComponent coreApplicationComponent;
+    public final static CoreApplicationComponent appComponent = DaggerCoreApplicationComponent.create();
 
     @Override
     public void onCreate() {
         super.onCreate();
         mInstance = this;
         res = getResources();
-        coreApplicationComponent = DaggerCoreApplicationComponent.create(); // TODO: may be there is a better way?
     }
 
     public static App getInstance() {
@@ -25,10 +24,6 @@ public class App extends Application {
 
     public static Resources getRes() {
         return res;
-    }
-
-    public static CoreApplicationComponent getCoreApplicationComponent(){
-        return coreApplicationComponent;
     }
 
 }

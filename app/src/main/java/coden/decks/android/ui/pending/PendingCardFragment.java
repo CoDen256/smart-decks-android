@@ -14,6 +14,8 @@ import android.view.ViewGroup;
 
 import java.util.List;
 
+import javax.inject.Inject;
+
 import coden.decks.android.R;
 import coden.decks.android.app.App;
 import coden.decks.android.core.CoreApplicationComponent;
@@ -32,13 +34,18 @@ public class PendingCardFragment extends Fragment {
     // TODO: Customize parameters
     private int mColumnCount = 1;
 
-    private static final CoreApplicationComponent component = App.getCoreApplicationComponent();
+    @Inject
+    DecksModel model;
+
+    @Inject
+    RevisionManager revisor;
 
     /**
      * Mandatory empty constructor for the fragment manager to instantiate the
      * fragment (e.g. upon screen orientation changes).
      */
     public PendingCardFragment() {
+        App.appComponent.inject(this);
     }
 
     // TODO: Customize parameter initialization
@@ -77,12 +84,10 @@ public class PendingCardFragment extends Fragment {
 //            getModel(view)
 //                    .getPendingCards()
 //                    .thenAccept(cards -> setAdapter(recyclerView, cards));
-            DecksModel model = component.decksModel();
-            RevisionManager reminder = component.revisor();
             model.getPendingCards().thenCombine(model.getReadyCards(), (pending, ready) -> {
                 ready.addAll(pending);
                 return ready;
-            }).thenAccept(cards -> setAdapter(recyclerView, cards, reminder));
+            }).thenAccept(cards -> setAdapter(recyclerView, cards, revisor));
 
         }
         return view;

@@ -42,12 +42,12 @@ public class MainActivityCardController implements MainActivityController {
     private final View mKnowButton;
 
 
-    public MainActivityCardController(CoreApplicationComponent component, Activity activity, View view) {
+    public MainActivityCardController(DecksModel model, Settings settings, Activity activity, View view) {
         mActivity = activity;
         mView = view;
 
-        mDecksModel = component.decksModel();
-        mSettings = component.settings();
+        mDecksModel = model;
+        mSettings = settings;
 
         mFirstSide = mView.findViewById(R.id.firstSide);
         mSecondSide = mView.findViewById(R.id.secondSide);

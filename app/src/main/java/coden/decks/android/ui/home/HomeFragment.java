@@ -18,6 +18,8 @@ import androidx.fragment.app.Fragment;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
+import javax.inject.Inject;
+
 import coden.decks.android.CreateCardActivity;
 import coden.decks.android.R;
 import coden.decks.android.SettingsActivity;
@@ -25,22 +27,32 @@ import coden.decks.android.app.App;
 import coden.decks.android.core.CoreApplicationComponent;
 import coden.decks.android.core.controller.MainActivityCardController;
 import coden.decks.android.core.controller.MainActivityController;
+import coden.decks.android.core.settings.Settings;
+import coden.decks.core.model.DecksModel;
 
 import static android.app.Activity.RESULT_OK;
 
 public class HomeFragment extends Fragment {
 
-    private final static CoreApplicationComponent mComponent = App.getCoreApplicationComponent();
+    @Inject
+    DecksModel mDecksModel;
+
+    @Inject
+    Settings mSettings;
 
     private View mRoot;
     private MainActivityController mController;
 
-
+    @Override
     public View onCreateView(@NonNull LayoutInflater inflater,
             ViewGroup container, Bundle savedInstanceState) {
+        App.appComponent.inject(this);
+
         setHasOptionsMenu(true);
+
         mRoot = inflater.inflate(R.layout.fragment_home, container, false);
-        mController = new MainActivityCardController(mComponent, getActivity(), mRoot);
+        mController = new MainActivityCardController(mDecksModel, mSettings, getActivity(), mRoot);
+
         setListenerOnAddButton();
         setListenerOnDeleteButton();
         setListenerOnKnow();
