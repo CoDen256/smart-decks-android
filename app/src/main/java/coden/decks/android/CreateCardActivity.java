@@ -7,38 +7,46 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
 import android.text.TextUtils;
+import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
 
 import com.google.android.material.textfield.TextInputEditText;
+
+import coden.decks.android.core.intents.CreateCardIntent;
 
 
 public class CreateCardActivity extends AppCompatActivity {
 
     private TextInputEditText mFrontSide;
     private TextInputEditText mBackSide;
+    private View mCancelButton;
+    private View mCreateButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_create_card);
-        Toolbar toolbar = findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
-        mFrontSide = findViewById(R.id.frontSide);
-        mBackSide = findViewById(R.id.backside);
+        setSupportActionBar(findViewById(R.id.toolbar));
+        findViews();
         setListenerOnCreateButton();
         setListenerOnCancelButton();
     }
 
+    private void findViews() {
+        mCreateButton = findViewById(R.id.submit_button);
+        mCancelButton = findViewById(R.id.cancel_button);
+        mFrontSide = findViewById(R.id.frontSide);
+        mBackSide = findViewById(R.id.backside);
+    }
+
 
     private void setListenerOnCreateButton() {
-        Button createButton = findViewById(R.id.submit_button);
-        createButton.setOnClickListener( v -> publishOnCompleted());
+        mCreateButton.setOnClickListener( v -> publishOnCompleted());
     }
 
     private void setListenerOnCancelButton() {
-        Button cancelButton = findViewById(R.id.cancel_button);
-        cancelButton.setOnClickListener( v -> discard());
+        mCancelButton.setOnClickListener( v -> discard());
     }
 
     private void publishOnCompleted() {
@@ -50,20 +58,16 @@ public class CreateCardActivity extends AppCompatActivity {
     }
 
     private void publish(String frontSide, String backSide){
-        Intent data = new Intent();
-        data.putExtra("frontSide", frontSide);
-        data.putExtra("backSide", backSide);
-        setResult(RESULT_OK,data);
+        setResult(RESULT_OK, new CreateCardIntent(frontSide, backSide));
         finish();
     }
 
     private void discard(){
-        Intent data = new Intent();
-        setResult(RESULT_CANCELED,data);
+        setResult(RESULT_CANCELED, new Intent());
         finish();
     }
 
     private void toastIncomplete(){
-        Toast.makeText(this, "Entries are incomplete", Toast.LENGTH_SHORT).show();
+        Toast.makeText(this, R.string.entries_incomplete, Toast.LENGTH_SHORT).show();
     }
 }

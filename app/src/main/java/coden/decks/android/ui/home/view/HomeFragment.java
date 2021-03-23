@@ -26,6 +26,7 @@ import coden.decks.android.CreateCardActivity;
 import coden.decks.android.R;
 import coden.decks.android.SettingsActivity;
 import coden.decks.android.app.App;
+import coden.decks.android.core.intents.CreateCardIntent;
 import coden.decks.android.ui.home.controller.HomeController;
 import coden.decks.android.ui.home.controller.BaseHomeController;
 import coden.decks.android.core.settings.Settings;
@@ -90,9 +91,8 @@ public class HomeFragment extends Fragment implements BaseHomeView{
     public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         if (requestCode == 0) {
             if (resultCode == RESULT_OK && data != null) {
-                mController.addNewCard(
-                        data.getStringExtra("frontSide"),
-                        data.getStringExtra("backSide"));
+                CreateCardIntent createCardIntent = new CreateCardIntent(data);
+                mController.addNewCard(createCardIntent.getFrontSide(), createCardIntent.getBackSide());
             }
             else if (data == null) notify("Something went wrong...", Toast.LENGTH_SHORT);
             else notify("Cancelled.", Toast.LENGTH_SHORT);
