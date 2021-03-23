@@ -1,4 +1,4 @@
-package coden.decks.android.mvc.persistence;
+package coden.decks.android.core.persistence;
 
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.CollectionReference;
@@ -10,6 +10,8 @@ import java.io.IOException;
 import java.util.Objects;
 import java.util.concurrent.CompletableFuture;
 import java.util.stream.Stream;
+
+import javax.inject.Inject;
 
 import coden.decks.core.data.Card;
 import coden.decks.core.persistence.CardMapper;

@@ -22,22 +22,25 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import coden.decks.android.CreateCardActivity;
 import coden.decks.android.R;
 import coden.decks.android.SettingsActivity;
-import coden.decks.android.mvc.controller.MainActivityCardController;
-import coden.decks.android.mvc.controller.MainActivityController;
+import coden.decks.android.core.CoreApplicationComponent;
+import coden.decks.android.core.DaggerCoreApplicationComponent;
+import coden.decks.android.core.controller.MainActivityCardController;
+import coden.decks.android.core.controller.MainActivityController;
 
 import static android.app.Activity.RESULT_OK;
 
 public class HomeFragment extends Fragment {
 
     private View mRoot;
-    private MainActivityController mMainActivityCardController;
+    private MainActivityController mController;
+
+    private CoreApplicationComponent mComponent = DaggerCoreApplicationComponent.create();
 
     public View onCreateView(@NonNull LayoutInflater inflater,
             ViewGroup container, Bundle savedInstanceState) {
         setHasOptionsMenu(true);
         mRoot = inflater.inflate(R.layout.fragment_home, container, false);
-        mMainActivityCardController = new MainActivityCardController(getActivity(), mRoot);
-
+        mController = new MainActivityCardController(mComponent, getActivity(), mRoot);
         setListenerOnAddButton();
         setListenerOnDeleteButton();
         setListenerOnKnow();
@@ -49,7 +52,7 @@ public class HomeFragment extends Fragment {
 
     private void setListenerOnDeleteButton() {
         FloatingActionButton deleteButton = mRoot.findViewById(R.id.delete_button);
-        deleteButton.setOnClickListener(view -> mMainActivityCardController.deleteCurrentCard());
+        deleteButton.setOnClickListener(view -> mController.deleteCurrentCard());
     }
 
     private void setListenerOnAddButton() {
@@ -62,24 +65,24 @@ public class HomeFragment extends Fragment {
 
     private void setListenerOnKnow() {
         Button knowButton = mRoot.findViewById(R.id.button_know);
-        knowButton.setOnClickListener(view -> mMainActivityCardController.setKnow());
+        knowButton.setOnClickListener(view -> mController.setKnow());
     }
 
     private void setListenerOnDontKnow() {
         Button dontKnowButton = mRoot.findViewById(R.id.button_dont_know);
-        dontKnowButton.setOnClickListener(view -> mMainActivityCardController.setDontKnow());
+        dontKnowButton.setOnClickListener(view -> mController.setDontKnow());
     }
 
     private void setListenerOnShowSecondSide(){
         TextView showSecondSideButton = mRoot.findViewById(R.id.secondSide);
-        showSecondSideButton.setOnClickListener(view -> mMainActivityCardController.showSecondSide());
+        showSecondSideButton.setOnClickListener(view -> mController.showSecondSide());
     }
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         if (requestCode == 0) {
             if (resultCode == RESULT_OK) {
-                mMainActivityCardController.addNewCard(data);
+                mController.addNewCard(data);
             }
             else {
                 Toast.makeText(getActivity(), "Cancelled", Toast.LENGTH_SHORT).show();
@@ -100,7 +103,7 @@ public class HomeFragment extends Fragment {
             Intent launchNewIntent = new Intent(getActivity(), SettingsActivity.class);
             startActivityForResult(launchNewIntent, 1);
         }else if (item.getItemId() == R.id.action_refresh){
-            mMainActivityCardController.refresh();
+            mController.refresh();
         }
         return super.onOptionsItemSelected(item);
     }

@@ -24,6 +24,6 @@
     <string name="no_cards">No cards to display.</string>
     <string name="using_default_user">USING DEFAULT USER</string>
     <string name="pending_cards">Pending Cards</string>
-    <string name="default_user_name">default</string>
+    <string name="default_user_name">$DEFAULT_USER$</string>
 
 </resources>

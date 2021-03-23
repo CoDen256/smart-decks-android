@@ -15,12 +15,11 @@ import android.view.ViewGroup;
 import java.util.List;
 
 import coden.decks.android.R;
+import coden.decks.android.core.CoreApplicationComponent;
+import coden.decks.android.core.DaggerCoreApplicationComponent;
 import coden.decks.core.data.Card;
 import coden.decks.core.model.DecksModel;
 import coden.decks.core.revision.RevisionManager;
-
-import static coden.decks.android.mvc.model.ModelUtils.getModel;
-import static coden.decks.android.mvc.model.ModelUtils.getReminder;
 
 
 /**
@@ -76,8 +75,9 @@ public class PendingCardFragment extends Fragment {
 //            getModel(view)
 //                    .getPendingCards()
 //                    .thenAccept(cards -> setAdapter(recyclerView, cards));
-            DecksModel model = getModel(view);
-            RevisionManager reminder = getReminder(view);
+            CoreApplicationComponent component = DaggerCoreApplicationComponent.create();
+            DecksModel model = component.decksModel();
+            RevisionManager reminder = component.revisor();
             model.getPendingCards().thenCombine(model.getReadyCards(), (pending, ready) -> {
                 ready.addAll(pending);
                 return ready;

@@ -1,9 +1,8 @@
-package coden.decks.android.mvc.controller;
+package coden.decks.android.core.controller;
 
 
 import android.app.Activity;
 import android.content.Intent;
-import android.graphics.ColorSpace;
 import android.text.Html;
 import android.text.Spanned;
 import android.view.View;
@@ -13,14 +12,14 @@ import android.widget.Toast;
 import java.util.concurrent.CompletableFuture;
 
 import coden.decks.android.R;
+import coden.decks.android.core.CoreApplicationComponent;
+import coden.decks.android.core.settings.Settings;
 import coden.decks.core.data.Card;
 import coden.decks.core.model.DecksModel;
 import coden.decks.core.user.User;
 
-import static coden.decks.android.mvc.model.ModelUtils.getModel;
-import static coden.decks.android.mvc.model.ModelUtils.getUser;
-import static coden.decks.android.mvc.utils.FunctionalInterfaces.acceptOrCall;
-import static coden.decks.android.mvc.utils.FunctionalInterfaces.applyOrSkip;
+import static coden.decks.android.core.utils.FunctionalInterfaces.acceptOrCall;
+import static coden.decks.android.core.utils.FunctionalInterfaces.applyOrSkip;
 
 
 public class MainActivityCardController implements MainActivityController {
@@ -28,7 +27,8 @@ public class MainActivityCardController implements MainActivityController {
     private final View mView;
     private final Activity mActivity;
 
-    private final DecksModel mCachedCardModel;
+    private final DecksModel mDecksModel;
+    private final Settings mSettings;
 
     private final View mdeleteButton;
     private final View mAddButton;
@@ -41,15 +41,13 @@ public class MainActivityCardController implements MainActivityController {
     private final View mDontKnowButton;
     private final View mKnowButton;
 
-    private User mUser;
 
-
-    public MainActivityCardController(Activity activity, View view) {
+    public MainActivityCardController(CoreApplicationComponent component, Activity activity, View view) {
         mActivity = activity;
         mView = view;
 
-        setUser(getUser(view));
-        mCachedCardModel = getModel(view);
+        mDecksModel = component.decksModel();
+        mSettings = component.settings();
 
         mFirstSide = mView.findViewById(R.id.firstSide);
         mSecondSide = mView.findViewById(R.id.secondSide);
@@ -63,7 +61,6 @@ public class MainActivityCardController implements MainActivityController {
 
 
     private void setUser(User user){
-        mUser = user;
         notifyOnDefaultUser();
     }
 
@@ -71,15 +68,15 @@ public class MainActivityCardController implements MainActivityController {
     public void addNewCard(Intent intent) {
         String firstSide = intent.getStringExtra("firstSide");
         String secondSide = intent.getStringExtra("secondSide");
-        Card newCard = mCachedCardModel.createCard(firstSide, secondSide);
-        mCachedCardModel.addCard(newCard);
+        Card newCard = mDecksModel.createCard(firstSide, secondSide);
+        mDecksModel.addCard(newCard);
     }
 
     @Override
     public void deleteCurrentCard() {
         if (currentCardFuture == null) return;
         currentCardFuture
-                .thenApply(applyOrSkip(mCachedCardModel::deleteCard))
+                .thenApply(applyOrSkip(mDecksModel::deleteCard))
                 .thenRun(this::displayNextCard);
     }
 
@@ -87,7 +84,7 @@ public class MainActivityCardController implements MainActivityController {
     public void setDontKnow() {
         if (currentCardFuture == null) return;
         currentCardFuture
-                .thenApply(applyOrSkip(mCachedCardModel::setDontKnow))
+                .thenApply(applyOrSkip(mDecksModel::setDontKnow))
                 .thenRun(this::displayNextCard);
     }
 
@@ -96,7 +93,7 @@ public class MainActivityCardController implements MainActivityController {
     public void setKnow() {
         if (currentCardFuture == null) return;
         currentCardFuture
-                .thenApply(applyOrSkip(mCachedCardModel::setKnow))
+                .thenApply(applyOrSkip(mDecksModel::setKnow))
                 .thenRun(this::displayNextCard);
     }
 
@@ -117,7 +114,7 @@ public class MainActivityCardController implements MainActivityController {
     }
 
     private void displayNextCard(){
-        currentCardFuture = mCachedCardModel.getNextCard();
+        currentCardFuture = mDecksModel.getNextCard();
         currentCardFuture.thenAccept(acceptOrCall(this::displaySides, this::displayEmpty));
     }
 
@@ -146,17 +143,13 @@ public class MainActivityCardController implements MainActivityController {
     }
 
     private void notifyOnDefaultUser() {
-        if (isDefaultUser())
+        if (mSettings.isDefaultUser())
             Toast.makeText(mActivity, R.string.using_default_user, Toast.LENGTH_LONG).show();
     }
 
     private void notifyOnNoCards() {
-        if (!isDefaultUser())
+        if (!mSettings.isDefaultUser())
             Toast.makeText(mActivity, R.string.no_cards, Toast.LENGTH_LONG).show();
-    }
-
-    private boolean isDefaultUser() {
-        return "default".equals(mUser.getName());
     }
 
     private void disableAllButtons(){

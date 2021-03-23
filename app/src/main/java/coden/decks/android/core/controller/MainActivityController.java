@@ -1,4 +1,4 @@
-package coden.decks.android.mvc.controller;
+package coden.decks.android.core.controller;
 
 
 import android.content.Intent;
