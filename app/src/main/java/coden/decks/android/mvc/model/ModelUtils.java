@@ -10,6 +10,7 @@ import java.io.InputStream;
 
 import coden.decks.android.R;
 import coden.decks.android.mvc.persistence.AndroidFirebase;
+import coden.decks.android.mvc.persistence.AndroidFirebaseCardMapper;
 import coden.decks.core.firebase.FirebaseConfig;
 import coden.decks.core.model.DecksModel;
 import coden.decks.core.model.Decks;
@@ -61,7 +62,7 @@ public class ModelUtils {
 
     private static Database createDatabase(View view) {
         InputStream firebaseConfig = view.getResources().openRawResource(R.raw.firebase);
-        return new AndroidFirebase(new FirebaseConfig(firebaseConfig));
+        return new AndroidFirebase(new AndroidFirebaseCardMapper(), new FirebaseConfig(firebaseConfig));
     }
 
     private static RevisionManager createReminder(View view) {
