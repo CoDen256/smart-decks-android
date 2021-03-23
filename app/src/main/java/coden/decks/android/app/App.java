@@ -5,10 +5,12 @@ import android.content.res.Resources;
 
 import coden.decks.android.core.CoreApplicationComponent;
 import coden.decks.android.core.DaggerCoreApplicationComponent;
+import coden.decks.android.notification.NotificationConfigurationUtil;
 
 public class App extends Application {
     private static App mInstance;
     private static Resources res;
+    private static NotificationConfigurationUtil util;
     public final static CoreApplicationComponent appComponent = DaggerCoreApplicationComponent.create();
 
     @Override
@@ -16,6 +18,8 @@ public class App extends Application {
         super.onCreate();
         mInstance = this;
         res = getResources();
+        util = new NotificationConfigurationUtil(this);
+        util.createNotificationChannel();
     }
 
     public static App getInstance() {
@@ -25,5 +29,7 @@ public class App extends Application {
     public static Resources getRes() {
         return res;
     }
+
+
 
 }

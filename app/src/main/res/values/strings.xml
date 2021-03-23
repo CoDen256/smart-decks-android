@@ -1,8 +1,8 @@
 <resources>
-    <string name="app_name">Cards</string>
+    <string name="app_name">Smart Decks</string>
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
-    <string name="nav_header_title">Card Reminder</string>
+    <string name="nav_header_title">Smart Decks</string>
     <string name="nav_header_subtitle">android.studio@android.com</string>
     <string name="nav_header_desc">Navigation header</string>
     <string name="action_settings">Settings</string>
@@ -26,5 +26,7 @@
     <string name="pending_cards">Pending Cards</string>
     <string name="default_user_name">$DEFAULT_USER$</string>
     <string name="entries_incomplete">Entries are incomplete</string>
+    <string name="channel_name">smart-decks</string>
+    <string name="channel_description">The Channel is used by Smart Decks Application</string>
 
 </resources>

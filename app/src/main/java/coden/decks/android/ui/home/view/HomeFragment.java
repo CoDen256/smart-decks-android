@@ -1,5 +1,6 @@
 package coden.decks.android.ui.home.view;
 
+import android.app.Notification;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.Html;
@@ -16,6 +17,7 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.core.app.NotificationManagerCompat;
 import androidx.fragment.app.Fragment;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -27,6 +29,7 @@ import coden.decks.android.R;
 import coden.decks.android.SettingsActivity;
 import coden.decks.android.app.App;
 import coden.decks.android.core.intents.CreateCardIntent;
+import coden.decks.android.notification.RevisionNotification;
 import coden.decks.android.ui.home.controller.HomeController;
 import coden.decks.android.ui.home.controller.BaseHomeController;
 import coden.decks.android.core.settings.Settings;
@@ -100,10 +103,8 @@ public class HomeFragment extends Fragment implements BaseHomeView{
     }
 
     private void setListenerOnAddButton() {
-        mAddButton.setOnClickListener(view -> {
-            Intent launchNewIntent = new Intent(getContext(), CreateCardActivity.class);
-            startActivityForResult(launchNewIntent, 0);
-        });
+        mAddButton.setOnClickListener(view ->
+            startActivityForResult(new Intent(getContext(), CreateCardActivity.class), 0));
     }
 
     private void setListenerOnDeleteButton() {
@@ -119,10 +120,21 @@ public class HomeFragment extends Fragment implements BaseHomeView{
     }
 
     private void setListenerOnShowSecondSide(){
-        TextView showSecondSideButton = mRoot.findViewById(R.id.secondSide);
-        showSecondSideButton.setOnClickListener(view -> {
+        mBackSide.setOnClickListener(view -> {
             mController.revealBackSide();
+            playground();
         });
+    }
+
+    private void playground() {
+        Notification notification = RevisionNotification.builder(getContext())
+                .setContentTitle("title")
+                .setContentText("Text")
+                .build();
+
+
+        NotificationManagerCompat notificationManager = NotificationManagerCompat.from(getContext());
+        notificationManager.notify(555, notification);
     }
 
     @Override
