@@ -40,7 +40,7 @@ android {
 
 dependencies {
     // FIREBASE
-    implementation('coden:smart-decks-core:2.0.3'){
+    implementation('coden:smart-decks-core:4.1.0'){
         exclude group: 'com.google.firebase', module:'firebase-admin'
     }
     implementation platform('com.google.firebase:firebase-bom:26.1.0')

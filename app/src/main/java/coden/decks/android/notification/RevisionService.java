@@ -44,13 +44,8 @@ public class RevisionService extends JobService {
                 .build();
         if (notifyManager == null) return;
         notifyManager.notify(0, notification);
+        reschedule();
     }
-
-
-
-
-
-
 
     private void reschedule(){
         RevisionScheduler.scheduleRevision(this);

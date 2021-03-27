@@ -11,7 +11,6 @@ import coden.decks.android.notification.RevisionScheduler;
 public class App extends Application {
     private static App mInstance;
     private static Resources res;
-    private static NotificationConfigurationUtil util;
     public final static CoreApplicationComponent appComponent = DaggerCoreApplicationComponent.create();
 
     @Override
@@ -19,8 +18,7 @@ public class App extends Application {
         super.onCreate();
         mInstance = this;
         res = getResources();
-        util = new NotificationConfigurationUtil(this);
-        util.createNotificationChannel();
+        new NotificationConfigurationUtil(this).createNotificationChannel();
         RevisionScheduler.scheduleRevision(this);
     }
 

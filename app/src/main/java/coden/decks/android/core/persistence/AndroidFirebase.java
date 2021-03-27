@@ -11,14 +11,15 @@ import java.util.Objects;
 import java.util.concurrent.CompletableFuture;
 import java.util.stream.Stream;
 
-import javax.inject.Inject;
-
 import coden.decks.core.data.Card;
-import coden.decks.core.persistence.CardMapper;
+import coden.decks.core.data.CardDeserializer;
 import coden.decks.core.persistence.Database;
-import coden.decks.core.firebase.FirebaseConfig;
+import coden.decks.core.firebase.config.FirebaseConfig;
 import coden.decks.core.user.User;
+import coden.decks.core.user.UserDeserializer;
 import coden.decks.core.user.UserNotProvidedException;
+
+import static java.util.Objects.requireNonNull;
 
 /**
  * Represents a firebase used in android implementing {@link Database}
@@ -27,14 +28,17 @@ public class AndroidFirebase implements Database {
 
     private final FirebaseConfig config;
     private final FirebaseFirestore firestore;
-    private final CardMapper<DocumentSnapshot> mapper;
+    private final CardDeserializer<DocumentSnapshot> cardDeserializer;
+    private final UserDeserializer<DocumentSnapshot> userDeserializer;
 
     private User user;
     private CollectionReference deck;
 
-    public AndroidFirebase(CardMapper<DocumentSnapshot> mapper, FirebaseConfig config) {
-        this.mapper = Objects.requireNonNull(mapper);
-        this.config = Objects.requireNonNull(config);
+    public AndroidFirebase(CardDeserializer<DocumentSnapshot> cardDeserializer, UserDeserializer<DocumentSnapshot> userDeserializer,
+            FirebaseConfig config) {
+        this.cardDeserializer = requireNonNull(cardDeserializer);
+        this.userDeserializer = requireNonNull(userDeserializer);
+        this.config = requireNonNull(config);
         this.firestore = createFirestore();
     }
 
@@ -50,16 +54,30 @@ public class AndroidFirebase implements Database {
     }
 
     @Override
+    public User getUser() {
+        return user;
+    }
+
+    @Override
     public void setUser(User user) {
-        this.user = Objects.requireNonNull(user);
-        this.deck = null;
+        if (!Objects.equals(requireNonNull(user), this.user)){
+            this.user = user;
+            this.deck = null;
+        }
+    }
+
+    @Override
+    public CompletableFuture<Stream<User>> getAllUsers() {
+        Task<QuerySnapshot> getAllUsersFuture = firestore.collection(config.userCollection).get();
+        return createCompletableFuture(getAllUsersFuture)
+                .thenApply(this::asUsers);
     }
 
     @Override
     public CompletableFuture<Stream<Card>> getAllEntries() throws UserNotProvidedException {
         final Task<QuerySnapshot> getAllEntriesFuture = getDeck().get();
         return createCompletableFuture(getAllEntriesFuture).
-                thenApply(this::fetchDocumentsAsFirebaseCardEntries);
+                thenApply(this::asCards);
     }
 
 
@@ -69,7 +87,7 @@ public class AndroidFirebase implements Database {
                 .whereGreaterThanOrEqualTo("level", level)
                 .get();
         return createCompletableFuture(getGreaterOrEqualLevelFuture)
-                .thenApply(this::fetchDocumentsAsFirebaseCardEntries);
+                .thenApply(this::asCards);
     }
 
     @Override
@@ -78,7 +96,7 @@ public class AndroidFirebase implements Database {
                 .whereLessThanOrEqualTo("level", level)
                 .get();
         return createCompletableFuture(getLessOrEqualLevelFuture)
-                .thenApply(this::fetchDocumentsAsFirebaseCardEntries);
+                .thenApply(this::asCards);
     }
 
     @Override
@@ -99,13 +117,6 @@ public class AndroidFirebase implements Database {
                 .thenApply(writeResult -> null);
     }
 
-    private CollectionReference getDeck() throws UserNotProvidedException {
-        if (deck == null) {
-            deck = createCollection();
-        }
-        return deck;
-    }
-
     private <T> CompletableFuture<T> createCompletableFuture(Task<T> task) {
         final CompletableFuture<T> completableFuture = new CompletableFuture<>();
         task.addOnSuccessListener(completableFuture::complete);
@@ -114,10 +125,24 @@ public class AndroidFirebase implements Database {
         return completableFuture;
     }
 
-    private Stream<Card> fetchDocumentsAsFirebaseCardEntries(QuerySnapshot snapshot) {
+    private CollectionReference getDeck() throws UserNotProvidedException {
+        if (deck == null) {
+            deck = createCollection();
+        }
+        return deck;
+    }
+
+    private Stream<Card> asCards(QuerySnapshot snapshot) {
         return snapshot.getDocuments()
                 .stream()
-                .map(mapper::toCard);
+                .map(cardDeserializer::deserialize);
+    }
+
+
+    private Stream<User> asUsers(QuerySnapshot snapshot) {
+        return snapshot.getDocuments()
+                .stream()
+                .map(userDeserializer::deserialize);
     }
 
     @Override

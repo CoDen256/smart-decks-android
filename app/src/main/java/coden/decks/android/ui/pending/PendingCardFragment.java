@@ -19,6 +19,7 @@ import javax.inject.Inject;
 import coden.decks.android.R;
 import coden.decks.android.app.App;
 import coden.decks.android.core.CoreApplicationComponent;
+import coden.decks.android.core.settings.Settings;
 import coden.decks.core.data.Card;
 import coden.decks.core.model.DecksModel;
 import coden.decks.core.revision.RevisionManager;
@@ -40,12 +41,16 @@ public class PendingCardFragment extends Fragment {
     @Inject
     RevisionManager revisor;
 
+    @Inject
+    Settings mSettings;
+
     /**
      * Mandatory empty constructor for the fragment manager to instantiate the
      * fragment (e.g. upon screen orientation changes).
      */
     public PendingCardFragment() {
         App.appComponent.inject(this);
+        model.setUser(mSettings.getUser());
     }
 
     // TODO: Customize parameter initialization

@@ -16,7 +16,8 @@ public class RevisionScheduler {
         ComponentName serviceName = new ComponentName(context, RevisionService.class);
         JobInfo info = new JobInfo.Builder(JOB_ID, serviceName)
                 .setRequiredNetworkType(JobInfo.NETWORK_TYPE_ANY)
-                .setPeriodic(INTERVAL_MILLIS)
+                .setOverrideDeadline(INTERVAL_MILLIS)
+//                .setPeriodic(INTERVAL_MILLIS)
                 .build();
         scheduler.schedule(info);
     }

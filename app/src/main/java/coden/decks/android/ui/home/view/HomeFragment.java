@@ -1,6 +1,5 @@
 package coden.decks.android.ui.home.view;
 
-import android.app.Notification;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.Html;
@@ -17,7 +16,6 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.core.app.NotificationManagerCompat;
 import androidx.fragment.app.Fragment;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -29,10 +27,9 @@ import coden.decks.android.R;
 import coden.decks.android.SettingsActivity;
 import coden.decks.android.app.App;
 import coden.decks.android.core.intents.CreateCardIntent;
-import coden.decks.android.notification.RevisionNotification;
-import coden.decks.android.ui.home.controller.HomeController;
-import coden.decks.android.ui.home.controller.BaseHomeController;
 import coden.decks.android.core.settings.Settings;
+import coden.decks.android.ui.home.controller.BaseHomeController;
+import coden.decks.android.ui.home.controller.HomeController;
 import coden.decks.core.model.DecksModel;
 
 import static android.app.Activity.RESULT_OK;
@@ -55,12 +52,12 @@ public class HomeFragment extends Fragment implements BaseHomeView{
     private FloatingActionButton mDeleteButton;
     private Button mDontKnowButton;
     private Button mKnowButton;
-    private int JOB_ID = 0;
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater,
             ViewGroup container, Bundle savedInstanceState) {
         App.appComponent.inject(this);
+        mDecksModel.setUser(mSettings.getUser());
 
         setHasOptionsMenu(true);
         mRoot = inflater.inflate(R.layout.fragment_home, container, false);
@@ -121,21 +118,7 @@ public class HomeFragment extends Fragment implements BaseHomeView{
     }
 
     private void setListenerOnShowSecondSide(){
-        mBackSide.setOnClickListener(view -> {
-            mController.revealBackSide();
-            playground();
-        });
-    }
-
-    private void playground() {
-        Notification notification = RevisionNotification.builder(getContext())
-                .setContentTitle("title")
-                .setContentText("Text")
-                .build();
-
-
-        NotificationManagerCompat notificationManager = NotificationManagerCompat.from(getContext());
-        notificationManager.notify(555, notification);
+        mBackSide.setOnClickListener(view -> mController.revealBackSide());
     }
 
     @Override
