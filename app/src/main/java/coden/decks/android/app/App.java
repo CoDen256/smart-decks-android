@@ -5,8 +5,8 @@ import android.content.res.Resources;
 
 import coden.decks.android.core.CoreApplicationComponent;
 import coden.decks.android.core.DaggerCoreApplicationComponent;
-import coden.decks.android.notification.NotificationConfigurationUtil;
-import coden.decks.android.notification.RevisionScheduler;
+import coden.decks.android.revision.notification.Notifications;
+import coden.decks.android.revision.schedule.RevisionScheduler;
 
 public class App extends Application {
     private static App mInstance;
@@ -18,7 +18,7 @@ public class App extends Application {
         super.onCreate();
         mInstance = this;
         res = getResources();
-        new NotificationConfigurationUtil(this).createNotificationChannel();
+        Notifications.createNotificationChannel(this);
         RevisionScheduler.scheduleRevision(this);
     }
 

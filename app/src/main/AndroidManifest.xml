@@ -32,9 +32,9 @@
             android:label="@string/title_activity_settings"
             android:parentActivityName="coden.decks.android.MainActivity" />
         <service
-            android:name="coden.decks.android.notification.RevisionService"
+            android:name="coden.decks.android.revision.RevisionService"
             android:permission="android.permission.BIND_JOB_SERVICE"/>
-        <receiver android:name=".notification.NotificationRevisionServiceReceiver" >
+        <receiver android:name=".revision.schedule.RevisionScheduler" >
             <intent-filter>
                 <action android:name="android.intent.action.BOOT_COMPLETED" />
             </intent-filter>

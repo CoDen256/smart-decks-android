@@ -4,7 +4,7 @@ import javax.inject.Singleton;
 
 import coden.decks.android.core.module.CoreModule;
 import coden.decks.android.core.settings.Settings;
-import coden.decks.android.notification.RevisionService;
+import coden.decks.android.revision.RevisionService;
 import coden.decks.android.ui.home.view.HomeFragment;
 import coden.decks.android.ui.pending.PendingCardFragment;
 import coden.decks.core.model.DecksModel;
