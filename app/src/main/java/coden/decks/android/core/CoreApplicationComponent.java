@@ -4,6 +4,7 @@ import javax.inject.Singleton;
 
 import coden.decks.android.core.module.CoreModule;
 import coden.decks.android.core.settings.Settings;
+import coden.decks.android.core.utils.CardFiller;
 import coden.decks.android.revision.RevisionService;
 import coden.decks.android.ui.home.view.HomeFragment;
 import coden.decks.android.ui.pending.PendingCardFragment;
@@ -21,4 +22,5 @@ public interface CoreApplicationComponent {
     void inject(HomeFragment homeFragment);
     void inject(PendingCardFragment pendingCardFragment);
     void inject(RevisionService service);
+    void inject(CardFiller service);
 }

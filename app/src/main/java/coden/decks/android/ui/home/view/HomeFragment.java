@@ -57,7 +57,8 @@ public class HomeFragment extends Fragment implements BaseHomeView{
     public View onCreateView(@NonNull LayoutInflater inflater,
             ViewGroup container, Bundle savedInstanceState) {
         App.appComponent.inject(this);
-        mDecksModel.setUser(mSettings.getUser());
+
+//        new CardFiller(mDecksModel, new UserEntry("test")).addFillerCards();
 
         setHasOptionsMenu(true);
         mRoot = inflater.inflate(R.layout.fragment_home, container, false);

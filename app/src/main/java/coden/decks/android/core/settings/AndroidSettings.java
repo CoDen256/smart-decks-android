@@ -12,7 +12,7 @@ import coden.decks.core.user.UserEntry;
 
 public class AndroidSettings implements Settings {
 
-
+    public static final String USERNAME = "username";
     private final Context applicationContext;
     private final String defaultUsername;
 
@@ -34,12 +34,21 @@ public class AndroidSettings implements Settings {
     }
 
     private String getSettingsUsername() {
-        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(applicationContext);
-        return sharedPreferences.getString("username", defaultUsername);
+        SharedPreferences sharedPreferences = getDefaultSharedPreferences();
+        return sharedPreferences.getString(USERNAME, defaultUsername);
     }
 
     @Override
     public boolean isDefaultUser() {
         return currentUser != null && defaultUsername.equals(getSettingsUsername());
+    }
+
+    @Override
+    public void registerListener(SharedPreferences.OnSharedPreferenceChangeListener listener) {
+        getDefaultSharedPreferences().registerOnSharedPreferenceChangeListener(listener);
+    }
+
+    private SharedPreferences getDefaultSharedPreferences() {
+        return PreferenceManager.getDefaultSharedPreferences(applicationContext);
     }
 }

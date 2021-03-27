@@ -50,7 +50,6 @@ public class PendingCardFragment extends Fragment {
      */
     public PendingCardFragment() {
         App.appComponent.inject(this);
-        model.setUser(mSettings.getUser());
     }
 
     // TODO: Customize parameter initialization

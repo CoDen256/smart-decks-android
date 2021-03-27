@@ -34,7 +34,7 @@ public class CoreModule {
     @Singleton
     @Provides
     public DecksModel provideDecksModel(Settings settings, Database database, RevisionManager manager) {
-        return new Decks(settings.getUser(), manager, database);
+        return new AndroidDecks(settings, manager, database);
     }
 
     @Singleton
