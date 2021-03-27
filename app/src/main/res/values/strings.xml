@@ -28,5 +28,7 @@
     <string name="entries_incomplete">Entries are incomplete</string>
     <string name="channel_name">smart-decks</string>
     <string name="channel_description">The Channel is used by Smart Decks Application</string>
+    <string name="notification_text_template">Hey, there are %d words to revise! Do you remember them?</string>
+    <string name="notification_title">New words to revise!</string>
 
 </resources>

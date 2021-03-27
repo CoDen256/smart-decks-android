@@ -55,6 +55,7 @@ public class HomeFragment extends Fragment implements BaseHomeView{
     private FloatingActionButton mDeleteButton;
     private Button mDontKnowButton;
     private Button mKnowButton;
+    private int JOB_ID = 0;
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater,
